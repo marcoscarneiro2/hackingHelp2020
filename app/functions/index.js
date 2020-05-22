@@ -55,10 +55,11 @@ app.get('/getAll', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
-app.get('/ProductsCategory', async (req, res) =>{
+app.get('/getProductsCategory', async (req, res) =>{
     try{
         let categoriasProdutos = [];
-        let getProductCategories = await produtos.get().then(snapshot => {
+        let getProductCategories = await produtos.get()
+        .then(snapshot => {
             snapshot.forEach(doc =>{
                 categoriasProdutos.push(doc.data())
             })
@@ -69,7 +70,7 @@ app.get('/ProductsCategory', async (req, res) =>{
     res.status(500).send(err.message);
     }
 });
-app.get('/ServicesCategory', async (req, res) =>{
+app.get('/getServicesCategory', async (req, res) =>{
     try{
         let categoriasServicos = [];
         let getServicesCategory = await produtos.get().then(snapshot => {
@@ -195,7 +196,7 @@ app.put('/addCategoriesToUser', async(req, res) => {
         res.send(400).send(err.message)
     }
 });
-
+const lingo = functions.https.onRequest(app);
 module.exports = {
-   app
+   lingo
 } 
