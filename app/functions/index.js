@@ -107,6 +107,7 @@ app.post('/createPessoaFisica', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+// Mesmo método anterior, que cadastra pessoa Juridica
 app.post('/createPessoaJuridica', async (req, res) => {
     try{
       
@@ -159,49 +160,41 @@ app.put('/addAdress', async (req, res) => {
     }
 
 });
-app.put('/addProductToUser', async(req, res) => {
+// Adicionar Categoria de Vendas ao Cadastro
+app.put('/addCategoriesToUser', async(req, res) => {
     try{
+        // Valida CheckBox de venda
+        let fazVenda = req.body.checkVenda;
+        // Valida CheckBox de Serviços
+        let fazServico = req.body.checkServico;
         let tipoPessoa = req.body.tipoPessoa;
-        let produtos = req.body.produtos;
+        let Categoria = {};
+        // Condicional que adiciona Os tipos de Categoria
+        if(fazVenda){
+            categoria.produtos = req.body.produtos;
+        }
+        if(fazServico){
+            categoria.servicos = req.body.servicos;
+        }
+        // Valida Tipo de Pessoa entre fisica e Juridica
+        let responseOk = res.status(200).send("Categorias adicionadas com Sucesso!")
         if(tipoPessoa === 'pf'){
             let cpf = res.body.cpf;
-            let addProduct = await pf.doc(cpf)
-            .update(produtos)
-            .then(res.status(200).send("Produtos adicionados com Sucesso!"));
+            let addCategories = await pf.doc(cpf)
+            .update(categoria)
+            .then(responseOk);
         }
         if(tipoPessoa === 'pj'){
             let cnpj = res.body.cnpj;
             let addProduct = await pf.doc(cnpj)
-            .update(produtos)
-            .then(res.status(200).send("Produtos adicionados com Sucesso!"));
+            .update(categoria)
+            .then(responseOk);
         }
     }
     catch(err){
         res.send(400).send(err.message)
     }
 });
-app.put('/addServiceToUser', async(req, res) => {
-    try{
-        let tipoPessoa = req.body.tipoPessoa;
-        let servicos = req.body.servicos;
-        if(tipoPessoa === 'pf'){
-            let cpf = res.body.cpf;
-            let addServicePF = await pf.doc(cpf)
-            .update(servicos)
-            .then(res.status(200).send("Serviços adicionados com Sucesso!"));
-        }
-        if(tipoPessoa === 'pj'){
-            let cnpj = res.body.cnpj;
-            let addServicePJ = await pf.doc(cnpj)
-            .update(servicos)
-            .then(res.status(200).send("Serviços adicionados com Sucesso!"));
-        }
-    }
-    catch(err){
-        res.send(400).send(err.message)
-    }
-});
-
 
 module.exports = {
    app
