@@ -23,15 +23,25 @@ app.use(cors({origin:true}));
 const pf = db.collection('pessoaFisica');
 // Instância Colecction no DB para cadastro de Pessoa Jurídica
 const pj = db.collection('pessoaJuridica');
-
+// Instância Colecction no DB para cadastro de Produtos/Vendas;
+const produtos = db.collection('produtos');
+// Instância Colecction no DB para cadastro de Serviços;
+const servicos = db.collection('servicos');
+// Busca Todos os Usuários do Aplicativo
 app.get('/getAll', async (req, res) => {
     try{
+        // cria as listas vazias
         let listPessoaFisica = [];
         let listPessoaJuridica = [];
-        let getAllPessoaFisica = await pf.get().then(snapshot => {
+        // busca a lista de pessoas físicas no cadastro
+        let getAllPessoaFisica = await pf.get()
+        // Após Buscar realiza tarefa com os dados
+        .then(snapshot => {
+            // para cada item do banco, adiciona a lista de pessoa Fisica
             snapshot.forEach(doc => {
                 listPessoaFisica.push(doc.data())
             })
+            //retorna a lista de pessoa fisica com sucesso
             return res.status(200).send(listPessoaFisica)
         });
         let getAllPessoaJuridica = await pj.get().then(snapshot => {
@@ -45,20 +55,23 @@ app.get('/getAll', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+// Criar Pessoa Fisica, requisição assincrona
 app.post('/createPessoaFisica', async (req, res) => {
     try{
-      
+        // Aplicando os dados na forma de objeto, a partir da requisição
         let pessoaFisica = {
+            tipoPessoa: "pf",
             cpf: req.body.cpf,
             nome: req.body.nome,
             telefone: req.body.telefone,
- //           endereco: localizacao,
             email: req.body.email,
  //           resumo: req.body.resumoProfissional,
             senha: req.body.senha
         }; 
+        // mensagem de sucesso
         let mensagem = `Usuário com cpf:${pessoaFisica.cpf} cadastrado com sucesso`;
-        pf.doc(pessoaFisica.cpf)
+        // método que cria o documento na coleção
+        let createpessoaFisica = await pf.doc(pessoaFisica.cpf)
         .set(pessoaFisica)
         .then(res.send(200).send(mensagem)).catch(err); 
     }
@@ -66,10 +79,34 @@ app.post('/createPessoaFisica', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+app.post('/createPessoaJuridica', async (req, res) => {
+    try{
+      
+        let pessoaJuridica = {
+            tipoPessoa: "pj",
+            cnpj: req.body.cnpj,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            email: req.body.email,
+ //         resumo: req.body.resumoProfissional,
+            senha: req.body.senha
+        }; 
+        let mensagem = `Usuário com CNPJ:${pessoaJuridica.cnpj} cadastrado com sucesso`;
+        let createPessoaJuridica = await pj.doc(pessoaJuridica.cnpj)
+        .set(pessoaJuridica)
+        .then(res.send(200).send(mensagem)).catch(err); 
+    }
+    catch(err){
+        res.status(500).send(err.message);
+    }
+});
+// Adiciona endereço á uma conta já cadastrada
 app.put('/addAdress', async (req, res) => {
-    let tipoPessoa = req.body.tipoPessoa;
-    let cpf = req.body.cpf;
-    let localizacao = {
+    try{
+        // Busca o tipo de pessoa da conta
+        let tipoPessoa = req.body.tipoPessoa;
+        // Trata os dados de localização
+        let localizacao = {
             endereco: req.body.endereco,
             numero: req.body.endNumero,
             bairro: req.body.bairro,
@@ -77,9 +114,25 @@ app.put('/addAdress', async (req, res) => {
             uf: req.body.uf,
             cep: req.body.cep
         }; 
-    if(tipoPessoa === 'pf'){
-        pf.doc(cpf).set(localizacao)
+        // If de pessoa Fisica
+        if(tipoPessoa === 'pf'){
+            let cpf = req.body.cpf;
+            let addAddres = await pf.doc(cpf).update(localizacao).then(res.status(200).send("Endereço cadastrado com Sucesso!"));
+        }
+        // If de pessoa Jurídica
+        if(tipoPessoa === 'pj'){
+            let cnpj = req.body.cnpj;
+            let addAddress = await pj.doc(cnpj)
+            .update(localizacao).then(res.status(200).send("Endereço cadastrado com Sucesso!"));
+        }
     }
+    catch(err){
+        res.status(400).send(err.message);
+    }
+
+});
+app.put('/addProduct', async(req, res) => {
+
 })
 
 
