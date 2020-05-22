@@ -55,6 +55,34 @@ app.get('/getAll', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
+app.get('/ProductsCategory', async (req, res) =>{
+    try{
+        let categoriasProdutos = [];
+        let getProductCategories = await produtos.get().then(snapshot => {
+            snapshot.forEach(doc =>{
+                categoriasProdutos.push(doc.data())
+            })
+            return res.status(200).send(categoriasProdutos)
+        })
+    }
+    catch(err){
+    res.status(500).send(err.message);
+    }
+});
+app.get('/ServicesCategory', async (req, res) =>{
+    try{
+        let categoriasServicos = [];
+        let getServicesCategory = await produtos.get().then(snapshot => {
+            snapshot.forEach(doc =>{
+                categoriasServicos.push(doc.data())
+            })
+            return res.status(200).send(categoriasServicos)
+        })
+    }
+    catch(err){
+    res.status(500).send(err.message);
+    }
+});
 // Criar Pessoa Fisica, requisição assincrona
 app.post('/createPessoaFisica', async (req, res) => {
     try{
@@ -131,9 +159,48 @@ app.put('/addAdress', async (req, res) => {
     }
 
 });
-app.put('/addProduct', async(req, res) => {
-
-})
+app.put('/addProductToUser', async(req, res) => {
+    try{
+        let tipoPessoa = req.body.tipoPessoa;
+        let produtos = req.body.produtos;
+        if(tipoPessoa === 'pf'){
+            let cpf = res.body.cpf;
+            let addProduct = await pf.doc(cpf)
+            .update(produtos)
+            .then(res.status(200).send("Produtos adicionados com Sucesso!"));
+        }
+        if(tipoPessoa === 'pj'){
+            let cnpj = res.body.cnpj;
+            let addProduct = await pf.doc(cnpj)
+            .update(produtos)
+            .then(res.status(200).send("Produtos adicionados com Sucesso!"));
+        }
+    }
+    catch(err){
+        res.send(400).send(err.message)
+    }
+});
+app.put('/addServiceToUser', async(req, res) => {
+    try{
+        let tipoPessoa = req.body.tipoPessoa;
+        let servicos = req.body.servicos;
+        if(tipoPessoa === 'pf'){
+            let cpf = res.body.cpf;
+            let addServicePF = await pf.doc(cpf)
+            .update(servicos)
+            .then(res.status(200).send("Serviços adicionados com Sucesso!"));
+        }
+        if(tipoPessoa === 'pj'){
+            let cnpj = res.body.cnpj;
+            let addServicePJ = await pf.doc(cnpj)
+            .update(servicos)
+            .then(res.status(200).send("Serviços adicionados com Sucesso!"));
+        }
+    }
+    catch(err){
+        res.send(400).send(err.message)
+    }
+});
 
 
 module.exports = {
