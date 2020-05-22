@@ -47,27 +47,38 @@ app.get('/getAll', async (req, res) => {
 });
 app.post('/createPessoaFisica', async (req, res) => {
     try{
-        let localizacao = {
+      
+        let pessoaFisica = {
+            cpf: req.body.cpf,
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+ //           endereco: localizacao,
+            email: req.body.email,
+ //           resumo: req.body.resumoProfissional,
+            senha: req.body.senha
+        }; 
+        let mensagem = `Usuário com cpf:${pessoaFisica.cpf} cadastrado com sucesso`;
+        pf.doc(pessoaFisica.cpf)
+        .set(pessoaFisica)
+        .then(res.send(200).send(mensagem)).catch(err); 
+    }
+    catch(err){
+        res.status(500).send(err.message);
+    }
+});
+app.put('/addAdress', async (req, res) => {
+    let tipoPessoa = req.body.tipoPessoa;
+    let cpf = req.body.cpf;
+    let localizacao = {
             endereco: req.body.endereco,
             numero: req.body.endNumero,
             bairro: req.body.bairro,
             cidade: req.body.cidade,
             uf: req.body.uf,
             cep: req.body.cep
-        };
-        let pessoaFisica = {
-            cpf: req.body.cpf,
-            nome: req.body.nome,
-            telefone: req.body.telefone,
-            endereco: localizacao,
-            resumo: req.body.resumoProfissional,
-            isServico: req.body.isServico,
-            isVendedor: req.body.isVendedor
         }; 
-        
-    }
-    catch(err){
-        res.status(500).send(err.message);
+    if(tipoPessoa === 'pf'){
+        pf.doc(cpf).set(localizacao)
     }
 })
 
