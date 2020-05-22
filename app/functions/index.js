@@ -98,11 +98,11 @@ app.post('/createPessoaFisica', async (req, res) => {
             senha: req.body.senha
         }; 
         // mensagem de sucesso
-        let mensagem = `Usuário com cpf:${pessoaFisica.cpf} cadastrado com sucesso`;
+        let response = res.send(200).send(`Usuário com cpf:${pessoaFisica.cpf} cadastrado com sucesso`);
         // método que cria o documento na coleção
         let createpessoaFisica = await pf.doc(pessoaFisica.cpf)
         .set(pessoaFisica)
-        .then(res.send(200).send(mensagem)).catch(err); 
+        .then(response); 
     }
     catch(err){
         res.status(500).send(err.message);
@@ -121,10 +121,10 @@ app.post('/createPessoaJuridica', async (req, res) => {
  //         resumo: req.body.resumoProfissional,
             senha: req.body.senha
         }; 
-        let mensagem = `Usuário com CNPJ:${pessoaJuridica.cnpj} cadastrado com sucesso`;
+        let response = res.send(200).send(`Usuário com CNPJ:${pessoaJuridica.cnpj} cadastrado com sucesso`);
         let createPessoaJuridica = await pj.doc(pessoaJuridica.cnpj)
         .set(pessoaJuridica)
-        .then(res.send(200).send(mensagem)).catch(err); 
+        .then(response); 
     }
     catch(err){
         res.status(500).send(err.message);
@@ -144,16 +144,17 @@ app.put('/addAdress', async (req, res) => {
             uf: req.body.uf,
             cep: req.body.cep
         }; 
+        let response = res.status(200).send("Endereço cadastrado com Sucesso!")
         // If de pessoa Fisica
         if(tipoPessoa === 'pf'){
             let cpf = req.body.cpf;
-            let addAddres = await pf.doc(cpf).update(localizacao).then(res.status(200).send("Endereço cadastrado com Sucesso!"));
+            let addAddres = await pf.doc(cpf).update(localizacao).then(response);
         }
         // If de pessoa Jurídica
         if(tipoPessoa === 'pj'){
             let cnpj = req.body.cnpj;
             let addAddress = await pj.doc(cnpj)
-            .update(localizacao).then(res.status(200).send("Endereço cadastrado com Sucesso!"));
+            .update(localizacao).then(response);
         }
     }
     catch(err){
@@ -178,24 +179,36 @@ app.put('/addCategoriesToUser', async(req, res) => {
             categoria.servicos = req.body.servicos;
         }
         // Valida Tipo de Pessoa entre fisica e Juridica
-        let responseOk = res.status(200).send("Categorias adicionadas com Sucesso!")
+        let response = res.status(200).send("Categorias adicionadas com Sucesso!")
         if(tipoPessoa === 'pf'){
             let cpf = res.body.cpf;
             let addCategories = await pf.doc(cpf)
             .update(categoria)
-            .then(responseOk);
+            .then(response);
         }
         if(tipoPessoa === 'pj'){
             let cnpj = res.body.cnpj;
             let addProduct = await pf.doc(cnpj)
             .update(categoria)
-            .then(responseOk);
+            .then(response);
         }
     }
     catch(err){
         res.send(400).send(err.message)
     }
 });
+app.delete('/deleteUser', async(req, res) => {
+    let tipoPessoa = req.body.tipoPessoa;
+    let response = res.status(200).send("Conta apagada com Sucesso!")
+    if(tipoPessoa === "pf"){
+        let cpf = res.body.cpf;
+        let deleteAccount = await pf.doc(cpf).delete().then(response);
+    }
+    if(tipoPessoa === "pj"){
+        let cnpj = res.body.cnpj;
+        let deleteAccount = await pj.doc(cnpj).delete().then(response);
+    }
+})
 const lingo = functions.https.onRequest(app);
 module.exports = {
    lingo
