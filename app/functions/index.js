@@ -168,7 +168,7 @@ app.put('/addCategoriesToUser', async(req, res) => {
         // Valida CheckBox de Serviços
         let fazServico = req.body.checkServico;
         let tipoPessoa = req.body.tipoPessoa;
-        let Categoria = {};
+        let Categoria;
         // Condicional que adiciona Os tipos de Categoria
         if(fazVenda){
             categoria.produtos = req.body.produtos;
