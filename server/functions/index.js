@@ -12,6 +12,8 @@ const cors = require('cors');
 admin.initializeApp(functions.config().firebase);
 // Instância Firestore DB
 const db = admin.firestore();
+// Intancia do Google Auth
+const auth = admin.auth();
 // Instância Aplicação com Express
 const app = express();
 // Injeção de Biblioteca para interpretação de Json ao Express e dados via url
@@ -137,6 +139,18 @@ app.get('/getServicesCategory', async (req, res) =>{
     }
     catch(err){
     res.status(500).send(err.message);
+    }
+});
+
+app.post('/createUser', async (req, res) => {
+    try{
+        let email = req.body.email;
+        let password = req.body.password;
+        await auth.createUser({email, password})
+        .then(res.status(200).send("Conta Criada com Sucesso!"))
+    }
+    catch(err){
+        res.status(400).send(err.message)
     }
 });
 // Criar Pessoa Fisica, requisição assincrona
