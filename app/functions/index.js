@@ -35,14 +35,14 @@ app.post('/setUfs', async (req, res) => {
         let estados = req.body.estados;
         let mensagem = "Cidades gravadas";
         estados.forEach(docs => {
-                uf.doc(docs.sigla)
-                .set({
-                nome:docs.nome,
-                cidade:docs.cidades
-                })
+                let UniFed = docs.sigla
+                let nome = docs.nome;
+                let cidades = docs.cidades
+                uf.doc(UniFed)
+                .set({nome:nome,cidade:cidades});
                 mensagem = mensagem + docs.sigla + " ";
         })
-        return res.status(200).send(mensagem)
+        res.status(200).send(mensagem)
     }
     catch(err){
         res.status(400).send(err.message)
