@@ -27,6 +27,61 @@ const pj = db.collection('pessoaJuridica');
 const produtos = db.collection('produtos');
 // Instância Colecction no DB para cadastro de Serviços;
 const servicos = db.collection('servicos');
+// Instancia Collection no DB para Lista de Estados, Cidades e Municipios
+const uf = db.collection('UF');
+// Adicionar UF e Cidade
+app.post('/setUfs', async (req, res) => {
+    try{
+        let estados = req.body.estados;
+        let mensagem = "Cidades gravadas";
+        estados.forEach(docs => {
+                uf.doc(docs.sigla)
+                .set({
+                nome:docs.nome,
+                cidade:docs.cidades
+                })
+                mensagem = mensagem + docs.sigla + " ";
+        })
+        return res.status(200).send(mensagem)
+    }
+    catch(err){
+        res.status(400).send(err.message)
+    }
+});
+// Busca todas as UF's do Brasil
+app.get('/getUfs', async (req, res) => {
+    try{
+        // Cria Lista Vazia
+        let listaUf = [];
+        // Busca Todos os Docs da Collection UF
+        let getUfs = await uf.get()
+        // Separa Todo o conteúdo de Resposta
+        .then(docs => {
+            // Para cada Documento, Adiciona um UF em cada Posição do Array
+            docs.forEach(doc => listaUf.push(doc.id));
+            // Retorna o Array com as UF's
+            return res.status(200).send(listaUf);
+        })
+    }
+    catch(err){
+        // Retorna o Erro
+        res.status(400).send(err.message)
+    }
+});
+// Busca A Lista de Município Filtrada por UF
+app.post('/getMunicipiosPorUF', (req, res)=> {
+    // Instancia a UF Desejada
+    let id = req.body.uf;
+    // Busca o Documento com a UF Selecionada
+    let getMunicipios = uf.doc(id).get()
+    // Trata a Informação Recebida
+    .then(doc => {
+        // Retorna a Lista de Municícios
+        return res.status(200).send(doc.data().cidade);
+    })
+    .catch(err => res.status(400).send(err.message))
+})
+
 // Busca Todos os Usuários do Aplicativo
 app.get('/getAll', async (req, res) => {
     try{
