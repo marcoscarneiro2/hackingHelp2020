@@ -109,13 +109,18 @@ export default {
                 this.alert("Confirmação de senha não confere");
                 return;
             }
-
             userService
                 .register(this.user)
-                .then(() => {
-                    this.alert("Conta criada com sucesso");
-                    this.isLoggingIn = true;
-                })
+                .then(
+                    axios.post('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/createUser',
+                    {email: this.user.email,
+                    password: this.user.password}
+
+                    ).then(() => {
+                        this.alert("Conta criada com sucesso");
+                        this.isLoggingIn = true;
+                    })
+                )
                 .catch(() => {
                     this.alert(
                         "Ocorreu um erro ao criar conta"
