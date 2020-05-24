@@ -1,3 +1,5 @@
+// Dependencia Axios
+const axios = require(`axios`);
 // Dependência do Cloud Functions
 const functions = require('firebase-functions');
 // Dependência do SDK Admin
@@ -74,14 +76,27 @@ app.get('/getUfs', async (req, res) => {
 app.post('/getMunicipiosPorUF', (req, res)=> {
     // Instancia a UF Desejada
     let id = req.body.uf;
+    let iduf;
+    let listaMunicipios = [];
     // Busca o Documento com a UF Selecionada
-    let getMunicipios = uf.doc(id).get()
+    let getUfId = uf.doc(id).get()
     // Trata a Informação Recebida
     .then(doc => {
-        // Retorna a Lista de Municícios
-        return res.status(200).send(doc.data().cidade);
+        iduf =  doc.data().id;
+        let getMunicipios = axios
+        .get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`)
+        .then(response => {
+            response.forEach(doc => {
+                listaMunicipios.push({
+                    id:doc.id,
+                    nome:doc.id
+                })
+            })
+        })
+        return res.status(200).send(listaMunicipios)
     })
     .catch(err => res.status(400).send(err.message))
+   
 })
 
 // Busca Todos os Usuários do Aplicativo
@@ -141,7 +156,7 @@ app.get('/getServicesCategory', async (req, res) =>{
     res.status(500).send(err.message);
     }
 });
-
+// Cria a conta e senha
 app.post('/createUser', async (req, res) => {
     try{
         let email = req.body.email;
