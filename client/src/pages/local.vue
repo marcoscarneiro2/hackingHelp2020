@@ -1,7 +1,12 @@
 <template >      
     <v-container class="mt-12">
-            <v-row align="center"
+         <v-row align="center"
+         justify="center"
             class="mt-12">
+                <v-header>Aonde?</v-header>
+            </v-row>
+            <v-row align="center"
+            class="my-0">
                 <v-col cols="3">
                     <v-subheader>UF:</v-subheader>
                 </v-col>
