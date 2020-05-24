@@ -1,29 +1,29 @@
 <template >      
-    <v-content 
-    align="center"
-    justify="center">
-        <v-app>
-            <v-header class="mx-auto mt-12">O que Procura?</v-header>
+    <v-app>
+        <v-row
+        align="center" 
+        class="mx-auto mt-12">
+            <v-header >O que Procura?</v-header>
+        </v-row>
+        <v-row align="center" >
             <v-btn 
-            class="mx-auto mt-auto mb-8" 
+            class="mx-auto" 
             outlined 
             width="80%"
             to="local"
             color="#FF9626">Produtos</v-btn>
+        </v-row>
+        <v-row align="center">
             <v-btn 
             class="mx-auto mb-auto" 
             outlined
             to="local"
             width="80%"
             color="#FF9626">Serviços</v-btn>
-        </v-app>
-    </v-content>
+        </v-row>
+    </v-app>
+
 </template>
-
-<!--STYLE-->
-<style>
-</style>
-
 <!--scripts-->
 <script>
 export default {
