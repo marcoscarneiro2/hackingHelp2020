@@ -13,7 +13,7 @@
                 <v-col cols="9">
                     <v-select
                     filter
-                    :change="getMunicipios()"
+                    v-on:change="getMunicipiosByUF()"
                     v-model="uf" 
                     :items="ufs"
                         />
@@ -27,16 +27,6 @@
                 <v-col cols="9">
                     <v-select 
                     :items="municipios"/>
-                </v-col>
-            </v-row>
-            <v-row align="center"
-            class="my-0">
-                <v-col cols="3">
-                    <v-subheader>Bairro:</v-subheader>
-                </v-col>
-                <v-col cols="9">
-                    <v-select 
-                    :items="bairro"/>
                 </v-col>
             </v-row>
             <v-row align="center">
@@ -61,8 +51,7 @@ export default {
         return {
             uf:"",
             ufs:[],
-            municipios:[],
-            bairro:[]
+            municipios:[]
             }
         },
        
@@ -73,12 +62,16 @@ export default {
                 })
             
         },
-        methods:{
-            getMunicipios(){
-                axios.get('').then()
+    methods:{
+            getMunicipiosByUF() {
+                axios.post('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/getMunicipiosPorUF',{uf:this.uf})
+                .then(response => {
+                    this.municipios = response.data
+                })
+            
             }
-            }
-        }
+    }            
+}
             
 </script>
 

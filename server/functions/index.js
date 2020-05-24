@@ -82,17 +82,7 @@ app.post('/getMunicipiosPorUF', (req, res)=> {
     let getUfId = uf.doc(id).get()
     // Trata a Informação Recebida
     .then(doc => {
-        iduf =  doc.data().id;
-        let getMunicipios = axios
-        .get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`)
-        .then(response => {
-            response.forEach(doc => {
-                listaMunicipios.push({
-                    id:doc.id,
-                    nome:doc.id
-                })
-            })
-        })
+        listaMunicipios = doc.data().cidade
         return res.status(200).send(listaMunicipios)
     })
     .catch(err => res.status(400).send(err.message))
