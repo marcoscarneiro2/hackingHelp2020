@@ -1,7 +1,7 @@
 import VueRouter from "vue-router";
 
 import Home from "../pages/home";
-
+import Local from "../pages/local";
 
 
 const router = new VueRouter({
@@ -14,6 +14,12 @@ const router = new VueRouter({
                 path:"/",
                 name:"Home",
                 component:Home,
+                
+            },
+            {
+                path:"/local",
+                name:"Local",
+                component:Local,
                 
             }
         ]

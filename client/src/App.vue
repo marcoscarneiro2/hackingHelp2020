@@ -1,7 +1,9 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="lingo">
     <NavBar/>
+    <v-content>
     <router-view/>
+    </v-content>
     <Footer/>
   </v-app>
 </template>

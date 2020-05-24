@@ -1,9 +1,9 @@
 <template>
-
     <v-app-bar 
     color="#0296CC" 
     height="100%" 
     fixed
+    class="my-auto"
     >
       <v-img 
       class="mx-auto"
@@ -13,7 +13,6 @@
       align-center
       />
     </v-app-bar>
-
 </template>
 
 <script>
