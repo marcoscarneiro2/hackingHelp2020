@@ -1,10 +1,11 @@
 <template >      
-    <v-app id="inspire">
+    <v-app class="mt-12">
         <v-card
+        class="mt-12"
         :elevation="0"
         >
-            <v-col align="center" justify-content="center">
-                <v-text-title class="title mt-10 mb-12 bold">TITULO</v-text-title>
+            <v-col align="left" justify-content="center">
+                <h3 class="title mt-10 mb-12 bold">TITULO</h3>
                 <v-spacer/>
                 <span class="subtitle-1">NOME</span>
                 <v-spacer/>
@@ -12,7 +13,7 @@
                 <v-spacer/>
                 <p class="subtitle-1">CPF/CNPJ</p>
                 <v-spacer/>
-                <v-text-title class="title mt-10 bold">CATEGORIA</v-text-title>
+                <h3 class="title mt-10 bold">CATEGORIA</h3>
                 <v-spacer/>
                 <span class="subtitle-1">Endereço</span>
                 <v-spacer/>
@@ -32,7 +33,7 @@
 <script>
 export default {
     data() {
-        
+        return{}
     }
 }    
 </script>
