@@ -1,5 +1,6 @@
 <template >      
-    <v-app id="inspire">
+    <v-app >
+        <v-header class="mx-auto mt-12">O que Procura?</v-header>
         <v-btn 
         class="mx-auto mt-auto mb-8" 
         outlined 
