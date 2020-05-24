@@ -3,7 +3,7 @@
         <v-row
         align="center" 
         class="mx-auto mt-12">
-            <v-header >O que Procura?</v-header>
+            <h1 >O que Procura?</h1>
         </v-row>
         <v-row align="center" >
             <v-btn 
@@ -28,7 +28,9 @@
 <script>
 export default {
     data() {
-        
+        return {
+            
+        }
         }
     }    
 </script>

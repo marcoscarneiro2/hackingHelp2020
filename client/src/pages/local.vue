@@ -3,7 +3,7 @@
             <v-row align="center"
             justify="center"
             class="mt-12">
-                <v-header>Aonde?</v-header>
+                <h1>Aonde?</h1>
             </v-row>
             <v-row align="center"
             class="my-0">
@@ -54,15 +54,25 @@
 <script>
 import axios from "axios";
 export default {
-    data:() => ({
-        ufs:[],
-        municipios:[],
-        bairros:[]
-        }),
-        methods:{
-
+    data() {
+        return {
+            ufs:[],
+            municipios:[],
+            bairro:[]
+            }
         },
-        created:{
+        watch:{
+            
+        },
+        beforeCreated:{
+             getUf(){
+                axios.get('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/getUfs')
+                .then(response => {
+                    console.log(response)
+                })
+            }
+        },
+        methods:{
             getUf(){
                 axios.get('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/getUfs')
                 .then(response => {
@@ -70,6 +80,7 @@ export default {
                 })
             }
         }
+        
     }    
 </script>
 
