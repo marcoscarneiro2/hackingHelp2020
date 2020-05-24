@@ -11,7 +11,10 @@
                     <v-subheader>UF:</v-subheader>
                 </v-col>
                 <v-col cols="9">
-                    <v-select 
+                    <v-select
+                    filter
+                    :change="getMunicipios()"
+                    v-model="uf" 
                     :items="ufs"
                         />
                 </v-col>
@@ -56,31 +59,26 @@ import axios from "axios";
 export default {
     data() {
         return {
+            uf:"",
             ufs:[],
             municipios:[],
             bairro:[]
             }
         },
-        watch:{
+       
+        mounted() {
+                axios.get('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/getUfs')
+                .then(response => {
+                    this.ufs = response.data
+                })
             
         },
-        beforeCreated:{
-             getUf(){
-                axios.get('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/getUfs')
-                .then(response => {
-                    console.log(response)
-                })
-            }
-        },
         methods:{
-            getUf(){
-                axios.get('https://us-central1-hackingriolingo.cloudfunctions.net/lingo/getUfs')
-                .then(response => {
-                    this.ufs=response
-                })
+            getMunicipios(){
+                axios.get('').then()
+            }
             }
         }
-        
-    }    
+            
 </script>
 
