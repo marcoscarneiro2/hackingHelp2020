@@ -153,15 +153,6 @@ app.post('/createUser', async (req, res) => {
         res.status(400).send(err.message)
     }
 });
-// Login
-app.post('/login', async (req, res) => {
-    try{
-        let email = req.body.email;
-        let password = req.body.password;
-        await auth.UserTecord({email:email,passwordHash:password})
-    }
-    catch(err){res.status(400).send(err.message)}
-})
 // Criar Pessoa Fisica, requisição assincrona
 app.post('/createPessoaFisica', async (req, res) => {
     try{
