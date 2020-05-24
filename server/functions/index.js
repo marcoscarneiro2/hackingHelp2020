@@ -167,9 +167,12 @@ app.post('/createPessoaFisica', async (req, res) => {
             cpf: req.body.cpf,
             nome: req.body.nome,
             telefone: req.body.telefone,
-            email: req.body.email,
- //           resumo: req.body.resumoProfissional,
-            senha: req.body.senha
+            endereco: req.body.endereco,
+            numero: req.body.endNumero,
+            bairro: req.body.bairro,
+            cidade: req.body.cidade,
+            uf: req.body.uf,
+            cep: req.body.cep
         }; 
         // mensagem de sucesso
         let response = res.send(200).send(`Usuário com cpf:${pessoaFisica.cpf} cadastrado com sucesso`);
@@ -191,9 +194,12 @@ app.post('/createPessoaJuridica', async (req, res) => {
             cnpj: req.body.cnpj,
             nome: req.body.nome,
             telefone: req.body.telefone,
-            email: req.body.email,
- //         resumo: req.body.resumoProfissional,
-            senha: req.body.senha
+            endereco: req.body.endereco,
+            numero: req.body.endNumero,
+            bairro: req.body.bairro,
+            cidade: req.body.cidade,
+            uf: req.body.uf,
+            cep: req.body.cep
         }; 
         let response = res.send(200).send(`Usuário com CNPJ:${pessoaJuridica.cnpj} cadastrado com sucesso`);
         let createPessoaJuridica = await pj.doc(pessoaJuridica.cnpj)
@@ -205,7 +211,7 @@ app.post('/createPessoaJuridica', async (req, res) => {
     }
 });
 // Adiciona endereço á uma conta já cadastrada
-app.put('/addAdress', async (req, res) => {
+app.put('/updateAdress', async (req, res) => {
     try{
         // Busca o tipo de pessoa da conta
         let tipoPessoa = req.body.tipoPessoa;
