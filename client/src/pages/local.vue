@@ -1,7 +1,7 @@
 <template >      
     <v-container class="mt-12">
-         <v-row align="center"
-         justify="center"
+            <v-row align="center"
+            justify="center"
             class="mt-12">
                 <v-header>Aonde?</v-header>
             </v-row>
