@@ -1,10 +1,10 @@
 import VueRouter from "vue-router";
-
-import pesquisa from "../pages/pesquisa";
+import Home from "../pages/home";
 import Perfil from "../pages/Perfil";
-import login from "../pages/login";
-
-
+import Login from "../pages/login";
+import Cadastrar from "../pages/cadastrar";
+import Conteudo from "../pages/Conteudo";
+import historico from "../pages/historico";
 const router = new VueRouter({
     // rotas
     // precisa importar a página que vai ser referida a rota
@@ -12,23 +12,40 @@ const router = new VueRouter({
         routes:[
            
             {
-                path:"/pesquisa",
-                name:"pesquisa",
-                component:pesquisa,
+                path:"/",
+                name:"Home",
+                component:Home,
                 
             },
             {
-                path:"/Perfil",
+                path:"/perfil",
                 name:"Perfil",
                 component:Perfil,
+                
             },
-
             {
                 path:"/login",
-                name:"login",
-                component:login,
+                name:"Login",
+                component:Login,
+                
+            },
+            {
+                path:"/cadastrar",
+                name:"Cadastrar",
+                component:Cadastrar,
+                
+            },
+            {
+                path:"/Conteudo",
+                name:"Conteudo",
+                component:Conteudo,
+                
+            },
+            {
+                path:"/historico",
+                name:"historico",
+                component: historico,
             }
-            
         ]
     });
 
