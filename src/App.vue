@@ -45,7 +45,7 @@ export default {
           { title: 'Perfil', link:'/perfil' },
           { title: 'Favoritos', link:'/' },
           { title: 'Perto de Você', link:'/' },
-          { title: 'Histórico', link:'/'},
+          { title: 'Histórico', link:'/historico'},
           { title: 'Logar', link:'/login'}
         ]
     }
